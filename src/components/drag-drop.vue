@@ -5,6 +5,8 @@
     </p>
     <h1>drag drop</h1>
     <div id="mydiv" :style="{ top: cordY + 'px', left: cordX + 'px' }">
+      <p>X : {{ cordX }} - Y: {{ cordY }}</p>
+
       <div
         id="mydivheader"
         draggable="true"
@@ -17,16 +19,20 @@
         @drop="dragFinish(1, $event)"
       >
         DRAG
-        <p>X : {{ cordX }} - Y: {{ cordY }}</p>
       </div>
-      <p>BLA</p>
-      <p>BLA</p>
-      <p>BLA</p>
+      <input type="text" placeholder="text box 1" />
+      <input type="text" placeholder="text box 2" />
+      <input type="text" placeholder="text box 3" />
+      <!-- <p>BLA</p> -->
     </div>
   </div>
 </template>
 
 <script>
+const offset = {
+  x: 50,
+  y: 100,
+};
 export default {
   data() {
     return {
@@ -36,11 +42,16 @@ export default {
   },
   methods: {
     dragging: function (e) {
+      let obj = {
+        x: e.clientY,
+        y: e.clientX,
+      };
+      console.log("dragging ", obj.x, obj.y);
       // eslint-disable-next-line no-debugger
       //   debugger;
 
-      this.cordY = e.clientY;
-      this.cordX = e.clientX;
+      this.cordY = e.clientY - offset.y;
+      this.cordX = e.clientX - offset.x;
     },
 
     dragStart(e) {
@@ -88,12 +99,12 @@ export default {
     dragEnd(e) {
       console.log("dragEnd");
       let obj = {
-        x: e.clientY - 100,
-        y: e.clientX - 70,
+        x: e.clientY,
+        y: e.clientX,
       };
       console.log("dragEnd ", obj.x, obj.y);
-      this.cordY = e.clientY;
-      this.cordX = e.clientX;
+      this.cordY = e.clientY - offset.y;
+      this.cordX = e.clientX - offset.x;
       // eslint-disable-next-line no-debugger
       //   debugger;
       //   this.dragging = -1;
